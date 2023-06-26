@@ -1,6 +1,8 @@
 package project;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
@@ -43,7 +45,7 @@ class customer{
 		System.out.println("1.입력");
          System.out.println("2.수정");
          System.out.println("3.삭제");
-         System.out.println("4.메인 메뉴로 돌아가기");
+         System.out.println("0.메인 메뉴로 돌아가기");
          
 	     int menu = sc.nextInt();
 	      
@@ -55,7 +57,7 @@ class customer{
 	         }
 	         case 3 : 
 	        	 break;
-	         case 4 :
+	         case 0 :
 	        	 Shopping restart = new Shopping();
 	        	 restart.start();
 	        	 break;
@@ -67,12 +69,51 @@ class customer{
 	public void insert() {
 		System.out.println("이름을 입력하세요. ");
 		String name = sc.next();
+		
 		System.out.println("나이를 입력하세요. ");
 		int age = sc.nextInt();
-		System.out.println("성별를 입력하세요.(남/여)");
-		String gender = sc.next();
-		System.out.println("번호를 입력하세요. ");
-		String phonenumber = sc.next();
+		
+		System.out.println("성별를 입력하세요.(남/여)"); 
+		String gender = sc.next();		
+		while(!(gender.equals("남") || gender.equals("여"))) {
+			System.out.println("잘못입력하셨습니다. 다시 입력해주세요.");
+			gender = sc.next();
+		}
+		
+
+		
+
+            
+//            //읽을 라인이 없을 경우 br은 null을 리턴한다.
+//			while(true) {
+//				boolean result = false;
+//				System.out.println("번호를 입력하세요. "); // 중복값일때 예외 처리 
+//				String phonenumber = sc.next();
+//				
+//				try(FileReader rw = new FileReader("customerInfo.txt");
+//		                BufferedReader br = new BufferedReader( rw );
+//		             ){
+//		            String readLine = null ;
+//		            while( ( readLine =  br.readLine()) != null ){
+//		            	String [] arr = readLine.split(",");
+//		            	if(phonenumber.equals(arr[3])) {
+//		            		System.out.println("중복된 전화번호입니다.");
+//		            		continue;          		
+//		            	}else if(!phonenumber.equals(arr[3])) {
+//		            		result = true;
+//		            		break;
+//		            	}
+//		            	
+//
+//		            }
+//		        }catch ( IOException e ) {
+//		            System.out.println(e);
+//		        }
+//					
+//			}
+			
+
+		
 		sc.nextLine();
 		System.out.println("주소를 입력하세요. ");
 		String address = sc.nextLine();
