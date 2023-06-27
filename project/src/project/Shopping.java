@@ -1,7 +1,6 @@
 package project;
 
 import java.util.*;
-import java.io.*;
 
 public class Shopping {
 	
@@ -12,6 +11,7 @@ public class Shopping {
 	    System.out.println("3. 제품 관리");
 	    System.out.println("어떤 메뉴를 선택하시겠습니까? ");
 	    
+	    // 입력받은 조건에 따라 쇼핑몰, 고객관리, 제품관리로 분기 
 	    Scanner sc = new Scanner(System.in);
 	      int menu = sc.nextInt();
 	      
@@ -19,8 +19,8 @@ public class Shopping {
 	         case 1 : 
 	        	 break;
 	         case 2 : {
-	            customer acustomer = new customer();
-	            acustomer.customerMenu();
+	        	 CustomerMain coustormerMain = new CustomerMain();
+	        	 coustormerMain.customerMenu();
 	            break;
 	         }
 	         case 3 : 
@@ -29,12 +29,9 @@ public class Shopping {
 	      }
 	}
 	
-	
-	
    public static void main(String[] args) {
-      
+      // Main class의 start 메소드 호출
 	   start();
-     
-      
+    
    	}
 }
