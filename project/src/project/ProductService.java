@@ -19,7 +19,7 @@ public class ProductService {
 			if (productId.equals(list.get(i).getProductId())) {
 				System.out.println("이미 등록된 제품입니다.");
 				insert();	// 중복시 insert 다시 호출
-				break;
+				return;
 			}
 		}
 		// 제품명 입력받기

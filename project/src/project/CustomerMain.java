@@ -68,12 +68,13 @@ public class CustomerMain{
 		sb.append(phoneNumber);
 		System.out.println(sb);
 	}
-
+	
 	// customerMainMenu 시작(Shopping Main클래스에서 처음 호출받는 메소드)
 	public void customerMenu() {
 		// customerService 클래스에서 입력 내용구현
 		ShoppingMain restart = new ShoppingMain();
 		CustomerService customerService = new CustomerService();
+		HashmapTest hashmaptest = new HashmapTest();
 
 		while (true) {
 			System.out.println("-----------------------");
