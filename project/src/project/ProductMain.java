@@ -5,19 +5,20 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class ProductMain{
-	
-	private String productId;	//제품번호
-	private String productName;		//제품이름
-	private String category;		//카테고리
-	private int price;				//가격
-	private int quantity;			//수량
-	
+public class ProductMain {
+
+	private String productId; // 제품ID
+	private String productName; // 제품이름
+	private String category; // 카테고리
+	private int price; // 가격
+	private int quantity; // 수량
+
 	/*
-	 * 	///////////////생성자/////////////
+	 * ///////////////생성자/////////////
 	 */
-	ProductMain(){}
-	
+	ProductMain() {
+	}
+
 	public ProductMain(String productId, String productName, String category, int price, int quantity) {
 		super();
 		this.productId = productId;
@@ -28,31 +29,59 @@ public class ProductMain{
 	}
 
 ////////////////////생성자 완료/////////////////////////////
-      
-	
+
 	/*
-	 *  //////////////getter & setter 시작//////////////
+	 * //////////////getter & setter 시작//////////////
 	 */
-	public String getProductId() {return productId;}
-	public void setProductId(String productId) {this.productId = productId;}
-	public String getProductName() {return productName;}
-	public void setProductName(String productName) {this.productName = productName;}
-	public String getCategory() {return category;}
-	public void setCategory(String category) {this.category = category;}
-	public int getPrice() {return price;}
-	public void setPrice(int price) {this.price = price;}
-	public int getQuantity() {return quantity;}
-	public void setQuantity(int quantity) {this.quantity = quantity;}	
-	
+	public String getProductId() {
+		return productId;
+	}
+
+	public void setProductId(String productId) {
+		this.productId = productId;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
 	/*
-	 *  //////////////getter & setter 완료//////////////
+	 * //////////////getter & setter 완료//////////////
 	 */
-	
+
 	public void ProductList() {
 		StringBuffer sb = new StringBuffer();
 		sb.append(productName + " ");
 		sb.append("제품" + " || ");
-		sb.append("모델번호 = ");
+		sb.append("제품ID = ");
 		sb.append(productId + " || ");
 		sb.append("카테고리 = ");
 		sb.append(category + " || ");
@@ -62,7 +91,6 @@ public class ProductMain{
 		sb.append(quantity);
 		System.out.println(sb);
 	}
-
 
 	// ProductMainMenu 시작(Shopping Main클래스에서 처음 호출받는 메소드)
 	public void ProductMenu() {
@@ -89,7 +117,7 @@ public class ProductMain{
 				productService.insert(); // 1. 제품등록
 				break;
 			case 2: {
-				productService.edit(); // 2. 제품수정
+				// productService.edit(); // 2. 제품수정
 				break;
 			}
 			case 3:
@@ -97,21 +125,20 @@ public class ProductMain{
 				break;
 			case 4:
 				productService.SingleView(); // 4. 단일제품 조회
-				break;	
+				break;
 			case 5:
 				productService.view(); // 5. 제품 전체조회
 				break;
 			case 6:
 				productService.exit(); // 6. 종료
-				break;	
+				break;
 			case 0:
-				restart.start();	// 0. 초기화면 돌아가기 
+				restart.start(); // 0. 초기화면 돌아가기
 				break;
 			default:
 				System.out.println("잘못된 입력입니다.");
 			}
 		}
 	}
-	
-		
+
 }
