@@ -1,7 +1,6 @@
 package project;
 
 import java.io.*;
-import java.nio.charset.Charset;
 import java.util.*;
 
 //int newID = list.get(list.size()-1).getId()+1;
@@ -169,7 +168,7 @@ public class CustomerService {
 
 	// csv에 저장
 	public void exit() {
-		String path = "customer.csv";
+		String path = "customer.txt";
 		File file = new File(path);
 		BufferedWriter writer = null;
 		try {
@@ -178,15 +177,43 @@ public class CustomerService {
 			} else {
 				System.out.println("File already exists.");
 			}
-			writer = new BufferedWriter(new FileWriter(path, Charset.forName("UTF-8"), true));
+			writer = new BufferedWriter(new FileWriter(path, true));
 			for (CustomerMain customer : list) {
 				String str;
 				str = customer.getId() + "," + customer.getName() + "," + customer.getAge() + "," + customer.getGender()
 						+ "," + customer.getPhoneNumber() + "," + customer.getAddress();
 				writer.append(str);
+				writer.append("\n");
 			}
 			writer.close();
 		} catch (IOException e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+		}
+	}
+	
+	// txt파일 가져오기
+	public void load() {
+		String path = "customer.txt";
+		BufferedReader reader = null;
+		try {
+			reader = new BufferedReader(new FileReader(path));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(",");
+                String id = data[0];
+                String name = data[1];
+                int age =  Integer.parseInt(data[2]);
+                String gender = data[3];
+                String address = data[4];
+                String phonenumber = data[5];
+                
+                CustomerMain customermain = new CustomerMain(id, name, age, gender, address, phonenumber);
+                list.add(customermain);
+                hashmap.put(id, customermain);
+            }
+		
+		}catch (IOException e) {
 			System.out.println("An error occurred.");
 			e.printStackTrace();
 		}

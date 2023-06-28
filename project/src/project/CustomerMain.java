@@ -75,7 +75,9 @@ public class CustomerMain{
 		ShoppingMain restart = new ShoppingMain();
 		CustomerService customerService = new CustomerService();
 		HashmapTest hashmaptest = new HashmapTest();
-
+		
+		customerService.load(); // 파일을 불러와 list와 hashmap에 저장하는 메소드 불러오기 
+		
 		while (true) {
 			System.out.println("-----------------------");
 			System.out.println("1.입력");
