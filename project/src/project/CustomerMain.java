@@ -5,7 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
-class CustomerMain{
+public class CustomerMain{
 	
 	Scanner sc = new Scanner(System.in);
 	private String id;
@@ -20,7 +20,8 @@ class CustomerMain{
 	 */
 	CustomerMain(){}
       
-	CustomerMain(String id, String name, int age, String gender, String address, String phoneNumber){
+	public CustomerMain(String id, String name, int age, String gender, String address, String phoneNumber){
+		super();
 		this.id = id;
 		this.name = name;
 		this.age = age;
@@ -50,6 +51,7 @@ class CustomerMain{
 	/*
 	 *  //////////////getter & setter 완료//////////////
 	 */
+	
 	public void customerList() {
 		StringBuffer sb = new StringBuffer();
 		sb.append(name + " ");
@@ -66,43 +68,53 @@ class CustomerMain{
 		sb.append(phoneNumber);
 		System.out.println(sb);
 	}
-	
 
-	
 	// customerMainMenu 시작(Shopping Main클래스에서 처음 호출받는 메소드)
 	public void customerMenu() {
-	     CustomerService customerService = new CustomerService();
-	     
-		while(true) {
-			System.out.println("1.입력");
-	        System.out.println("2.수정");
-	        System.out.println("3.삭제");
-	        System.out.println("4.조회");
-	        System.out.println("0.메인 메뉴로 돌아가기");
-	         // 메뉴 번호 입력받고 번호에 따라 CustomerService 메소드 호출
-		     int menu = sc.nextInt();
+		// customerService 클래스에서 입력 내용구현
+		ShoppingMain restart = new ShoppingMain();
+		CustomerService customerService = new CustomerService();
 
-		     switch(menu) {
-		         case 1 : 
-		        	 customerService.insert();	//1. 입력
-		        	 break;
-		         case 2 : {
-		        	 customerService.edit();	//2. 수정
-		            break;
-		         }
-		         case 3 : 
-		        	 customerService.delete();	//3. 삭제
-		        	 break;
-		         case 4 : 
-		        	 customerService.view();	//4. 조회
-		        	 break;
-		         case 0 :
-		        	 ShoppingMain restart = new ShoppingMain();	//0. 돌아가기
-		        	 restart.start();
-		        	 break;
-		         default : System.out.println("잘못된 입력입니다.");
-		      }
-	      }
+		while (true) {
+			System.out.println("-----------------------");
+			System.out.println("1.입력");
+			System.out.println("2.수정");
+			System.out.println("3.삭제");
+			System.out.println("4.조회");
+			System.out.println("5.전체조회");
+			System.out.println("6.종료");
+			System.out.println("0.메인 메뉴로 돌아가기");
+			System.out.println("-----------------------");
+			// 메뉴 번호 입력받고 번호에 따라 CustomerService 메소드 호출
+			int menu = sc.nextInt();
+
+			switch (menu) {
+			case 1:
+				customerService.insert(); // 1. 입력
+				break;
+			case 2: {
+				customerService.edit(); // 2. 수정
+				break;
+			}
+			case 3:
+				customerService.delete(); // 3. 삭제
+				break;
+			case 4:
+				customerService.personalView(); // 4. 개인별 조회
+				break;	
+			case 5:
+				customerService.view(); // 5. 전체 고객 조회
+				break;
+			case 6:
+				customerService.exit(); // 6. 종료
+				break;	
+			case 0:
+				restart.start();	// 0. 초기화면 돌아가기 
+				break;
+			default:
+				System.out.println("잘못된 입력입니다.");
+			}
+		}
 	}
 	
 		
