@@ -31,7 +31,7 @@ public class CustomerService {
 		// 성별 입력받기
 		System.out.println("성별를 입력하세요.(남/여)");
 		String gender = sc.next();
-		while (!(gender.equals("남") || gender.equals("여"))) {
+		while (!(gender.equals("남") || gender.equals(""))) {
 			System.out.println("잘못입력하셨습니다. 다시 입력해주세요.");
 			gender = sc.next();
 		}
@@ -64,7 +64,7 @@ public class CustomerService {
 		
 		switch (n) {
 			case -1 :
-				System.out.println("없는 ID 입니다.");
+				System.out.println("입력하신 ID는 없습니다.");
 				break;
 			case 1:
 				System.out.println("이름을 새로 입력하세요.");
@@ -120,15 +120,13 @@ public class CustomerService {
 	public void personalView() {
 		System.out.println("고객의 ID를 입력하세요.");
 		String id = sc.next();
-
-		for (int i = 0; i < list.size(); i++) {
-			if (id.equals(list.get(i).getId())) {
-				String str = list.get(i).getName() + " " + "회원" + " || " + "id = " + list.get(i).getId() + " || " + 
-							 "나이 = " + list.get(i).getAge() + " || " + "성별 = " + list.get(i).getGender() + " || " + 
-							 "주소 = " + list.get(i).getAddress() + " || " + "핸드폰번호 = " + list.get(i).getPhoneNumber();
-				System.out.println(str);				
+		
+		for (CustomerMain customer : list) {
+			if(customer.getId().equals(id)) {
+				customer.customerList();
+				return;
 			}
-		}
+		}		
 	}
 
 	// 전체 고객 정보 출력

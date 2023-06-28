@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class ProductMain{
 	
-	private String productNumber;	//제품번호
+	private String productId;	//제품번호
 	private String productName;		//제품이름
 	private String category;		//카테고리
 	private int price;				//가격
@@ -18,9 +18,9 @@ public class ProductMain{
 	 */
 	ProductMain(){}
 	
-	public ProductMain(String productNumber, String productName, String category, int price, int quantity) {
+	public ProductMain(String productId, String productName, String category, int price, int quantity) {
 		super();
-		this.productNumber = productNumber;
+		this.productId = productId;
 		this.productName = productName;
 		this.category = category;
 		this.price = price;
@@ -33,8 +33,8 @@ public class ProductMain{
 	/*
 	 *  //////////////getter & setter 시작//////////////
 	 */
-	public String getProductNumber() {return productNumber;}
-	public void setProductNumber(String productNumber) {this.productNumber = productNumber;}
+	public String getProductId() {return productId;}
+	public void setProductId(String productId) {this.productId = productId;}
 	public String getProductName() {return productName;}
 	public void setProductName(String productName) {this.productName = productName;}
 	public String getCategory() {return category;}
@@ -53,7 +53,7 @@ public class ProductMain{
 		sb.append(productName + " ");
 		sb.append("제품" + " || ");
 		sb.append("모델번호 = ");
-		sb.append(productNumber + " || ");
+		sb.append(productId + " || ");
 		sb.append("카테고리 = ");
 		sb.append(category + " || ");
 		sb.append("가격 = ");
