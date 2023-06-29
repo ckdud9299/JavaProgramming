@@ -5,8 +5,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class CustomerMain{
-	
+public class CustomerMain {
+
 	Scanner sc = new Scanner(System.in);
 	private String id;
 	private String pw;
@@ -15,48 +15,89 @@ public class CustomerMain{
 	private String gender;
 	private String address;
 	private String phoneNumber;
-	
+
 	/*
-	 * 	///////////////생성자/////////////
+	 * ///////////////생성자/////////////
 	 */
-	CustomerMain(){}
-      
-	public CustomerMain(String id, String pw, String name, int age, String gender, String address, String phoneNumber){
+	CustomerMain() {
+	}
+
+	public CustomerMain(String id, String pw, String name, int age, String gender, String address, String phoneNumber) {
 		super();
 		this.id = id;
 		this.pw = pw;
 		this.name = name;
 		this.age = age;
 		this.gender = gender;
-		this.address = address;		
+		this.address = address;
 		this.phoneNumber = phoneNumber;
 	}
 ////////////////////생성자 완료/////////////////////////////
-      
-	
+
 	/*
-	 *  //////////////getter & setter 시작//////////////
+	 * //////////////getter & setter 시작//////////////
 	 */
-	public String getId() {return id;}
-	public void setId(String id) {this.id = id;}
-	public String getPw() {return pw;}
-	public void setPw(String pw) {this.pw = pw;}
-	public String getName() {return name;}
-	public void setName(String name) {this.name = name;}
-	public int getAge() {return age;}
-	public void setAge(int age) {this.age = age;}
-	public String getGender() {return gender;}
-	public void setGender(String gender) {this.gender = gender;}
-	public String getAddress() {return address;}
-	public void setAddress(String address) {this.address = address;}
-	public String getPhoneNumber() {return phoneNumber;}
-	public void setPhoneNumber(String phoneNumber) {this.phoneNumber = phoneNumber;}
-	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getPw() {
+		return pw;
+	}
+
+	public void setPw(String pw) {
+		this.pw = pw;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
 	/*
-	 *  //////////////getter & setter 완료//////////////
+	 * //////////////getter & setter 완료//////////////
 	 */
-	
-	public void customerList() {
+
+	public void customerString() {
 		StringBuffer sb = new StringBuffer();
 		sb.append(name + " ");
 		sb.append("회원" + " || ");
@@ -80,8 +121,8 @@ public class CustomerMain{
 		// customerService 클래스에서 입력 내용구현
 		Main restart = new Main();
 		CustomerService customerService = new CustomerService();
-		
-		customerService.Fileread();	// 파일읽기
+
+		customerService.Fileread(); // 파일읽기
 
 		while (true) {
 			System.out.println("-----------------------");
@@ -90,7 +131,6 @@ public class CustomerMain{
 			System.out.println("3.삭제");
 			System.out.println("4.조회");
 			System.out.println("5.전체조회");
-			System.out.println("6.종료");
 			System.out.println("0.메인 메뉴로 돌아가기");
 			System.out.println("-----------------------");
 			// 메뉴 번호 입력받고 번호에 따라 CustomerService 메소드 호출
@@ -109,21 +149,18 @@ public class CustomerMain{
 				break;
 			case 4:
 				customerService.personalView(); // 4. 개인별 조회
-				break;	
+				break;
 			case 5:
 				customerService.view(); // 5. 전체 고객 조회
 				break;
-			case 6:
-				customerService.exit(); // 6. 종료
-				break;	
 			case 0:
-				restart.start();	// 0. 초기화면 돌아가기 
+				customerService.FileSave(); // 6. 종료
+				restart.start(); // 0. 초기화면 돌아가기
 				break;
 			default:
 				System.out.println("잘못된 입력입니다.");
 			}
 		}
 	}
-	
-		
+
 }

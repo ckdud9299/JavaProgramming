@@ -119,7 +119,7 @@ public class ProductService {
 		String productId = sc.next();
 		// 입력된 제품 출력
 		if (productHash.containsKey(productId)) {
-			productHash.get(productId).ProductList(); // ✔✔get이 뭔지 이해하자
+			productHash.get(productId).productString();
 		} else
 			System.out.println("해당 제품은 없습니다.");
 	}
@@ -130,7 +130,7 @@ public class ProductService {
 		System.out.println("---등록된 제품을 모두 출력합니다.---");
 		if (!list.isEmpty()) {
 			for (ProductMain productMain : list) {
-				productMain.ProductList();
+				productMain.productString();
 			}
 			// 리스트가 비어있으면 view 메소드 종료
 		} else if (list.isEmpty()) {
@@ -140,7 +140,7 @@ public class ProductService {
 	}
 
 	// 종료
-	public void exit() {
+	public void FileSave() {
 		// 1. 파일 객체생성
 		String path = "product.txt";
 		File file = new File(path);
@@ -200,6 +200,5 @@ public class ProductService {
 		}
 
 	}
-	
 
 }
