@@ -158,7 +158,7 @@ public class ShoppingMain {
 		Scanner sc = new Scanner(System.in);
 		Main restart = new Main();
 		ShoppingService shoppingService = new ShoppingService();
-
+		
 		shoppingService.Fileread();
 
 		while (true) {

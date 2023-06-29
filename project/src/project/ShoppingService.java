@@ -12,12 +12,13 @@ public class ShoppingService {
 	HashMap<Integer, ShoppingMain> shoppingHash = new HashMap<Integer, ShoppingMain>();
 
 	Scanner sc = new Scanner(System.in);
+	
+	ProductService productService = new ProductService();	
 
 	public void productBuy(String id) throws IOException {
-
-		ProductService productService = new ProductService();
+		
 		productService.Fileread();
-
+		
 		// 물품 목록 보여주기
 		System.out.println("---제품 목록---");
 		System.out.println("제품ID   제품명   가격   수량");
@@ -37,7 +38,7 @@ public class ShoppingService {
 
 		// 주문번호 생성하기
 		int orderNo = list.get(list.size() - 1).getProductOrderNo() + 1;
-		// int orderNo = 1;
+
 		// 주문자 Id 가져오기
 		String uid = id;
 
@@ -60,22 +61,69 @@ public class ShoppingService {
 		// 총액 계산하기
 		int total = inputQuantity * price;
 
+		//shopping 리스트와 hash에 저장
 		ShoppingMain shoppingmain = new ShoppingMain(orderNo, uid, pid, date, inputQuantity, price, total);
 
 		list.add(shoppingmain);
 		shoppingHash.put(orderNo, shoppingmain);
-
-		int orginQuantity = productService.productHash.get(pid).getQuantity();
-		int resultQuanity = orginQuantity - inputQuantity;
-
-		productService.productHash.get(pid).setQuantity(resultQuanity);
+		
+		// product의 arraylist와 hashmap 수량 변경
+		int productQuantity = productService.productHash.get(pid).getQuantity(); // productHash에 저장된 pid에 해당하는 수량 가져오기
+		int resultProductQuanity = productQuantity - inputQuantity;
+		
+		ProductMain productmain = productService.productHash.get(pid);
+		int index = productService.list.indexOf(productmain);
+		
+		productService.productHash.get(pid).setQuantity(resultProductQuanity); 
+		productService.list.get(index).setQuantity(resultProductQuanity);
 		productService.FileSave();
+		
+		
 	}
 
 	public void productRefund(String inputId) throws IOException {
+		productService.Fileread();
+		
 		String userid = inputId;
 		
+		for (ShoppingMain shopping : list) {
+			if (inputId.equals(shopping.getUserID())){
+				shopping.shoppingString();		
+			}
+		}
 		
+		System.out.println();
+		
+		// 환불할 주문번호를 입력받기
+		System.out.println("환불하실 주문번호를 입력해주세요");
+		int orderNo = sc.nextInt();
+		
+		String pid = shoppingHash.get(orderNo).getProductID();
+		
+		// 환불할 수량 입력받기
+		System.out.println("환불하실 수량을 입력해주세요");
+		int inputQuantity = sc.nextInt();
+		
+		// product의 arraylist와 hashmap 재고 변경
+		int productQuantity = productService.productHash.get(pid).getQuantity();
+		int resultProductQuanity = productQuantity + inputQuantity;
+		
+		ProductMain productmain = productService.productHash.get(pid);
+		int index1 = productService.list.indexOf(productmain);
+		
+		productService.productHash.get(pid).setQuantity(resultProductQuanity);
+		productService.list.get(index1).setQuantity(resultProductQuanity);
+		productService.FileSave();
+		
+		//shopping의 arraylist와 hashmap 주문수량 변경
+		int orderQuantity = shoppingHash.get(orderNo).getQuantity();
+		int resultOrderQuantity = orderQuantity - inputQuantity;
+		
+		ShoppingMain shoppingmain = shoppingHash.get(orderNo);
+		int index2 = list.indexOf(shoppingmain);
+		
+		shoppingHash.get(orderNo).setQuantity(resultOrderQuantity);
+		list.get(index1).setQuantity(resultOrderQuantity);					
 	}
 
 	// 임시로 확인하기 위한 메소드
@@ -117,7 +165,7 @@ public class ShoppingService {
 	}
 
 	// txt파일 가져오기
-	public void Fileread() {
+	public void Fileread() throws IOException {
 		String path = "shopping.txt";
 		BufferedReader reader = null;
 		try {
