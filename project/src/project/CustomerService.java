@@ -8,7 +8,7 @@ import java.util.*;
 public class CustomerService {
 
 	ArrayList<CustomerMain> list = new ArrayList<>();
-	HashMap<String, CustomerMain> hashmap = new HashMap<String, CustomerMain>();
+	HashMap<String, CustomerMain> customerHash = new HashMap<String, CustomerMain>();
 
 	Scanner sc = new Scanner(System.in);
 
@@ -18,12 +18,14 @@ public class CustomerService {
 		System.out.println("id을 입력하세요. ");
 		String id = sc.next();
 
-		if (hashmap.containsKey(id)) {
+		if (customerHash.containsKey(id)) {
 			System.out.println("이미 등록된 id입니다.");
 			insert();
 			return;
 		}
-
+		// 비밀번호 입력받기
+		System.out.println("비밀번호를 입력하세요. ");
+		String pw = sc.next();
 		// 이름 입력받기
 		System.out.println("이름을 입력하세요. ");
 		String name = sc.next();
@@ -45,10 +47,10 @@ public class CustomerService {
 		String phonenumber = sc.next();
 
 		// 입력받은 값 저장
-		CustomerMain customermain = new CustomerMain(id, name, age, gender, address, phonenumber);
+		CustomerMain customermain = new CustomerMain(id, pw, name, age, gender, address, phonenumber);
 
 		list.add(customermain);
-		hashmap.put(id, customermain);
+		customerHash.put(id, customermain);
 	}
 
 	// 고객정보 수정
@@ -56,15 +58,15 @@ public class CustomerService {
 		System.out.println("수정할 고객의 ID를 입력하세요.");
 		String id = sc.next();
 
-		if (hashmap.containsKey(id)) {
+		if (customerHash.containsKey(id)) {
 
 			// 고객 메인 = 해쉬맵에서 입력받은 id의 값을 넣어준다 hashmap.get(id) = 주소값 반환
-			CustomerMain customermain = hashmap.get(id);
+			CustomerMain customermain = customerHash.get(id);
 			// 해쉬맵에서 찾은 값을 리스트indexof에 넣어줘서, 리스트의 값이 위치하는 인덱스 번호를 찾는다.
 			int index = list.indexOf(customermain);
 
 			System.out.println("수정하실 항목을 선택하세요.");
-			System.out.println("1.이름 2.나이 3.성별 4.주소 5.번호");
+			System.out.println("1.이름 2.나이 3.성별 4.주소 5.휴대폰번호 6.비밀번호");
 			int n = sc.nextInt();
 
 			switch (n) {
@@ -108,6 +110,16 @@ public class CustomerService {
 				list.get(index).setPhoneNumber(phonenumber);
 
 				break;
+				
+			case 6:
+				System.out.println("번호을 새로 입력하세요.");
+				String pw = sc.next();
+				customermain.setPhoneNumber(pw);
+
+				list.get(index).setPhoneNumber(pw);
+
+				break;
+				
 			default:
 				System.out.println("잘못된 입력입니다.");
 				break;
@@ -124,11 +136,11 @@ public class CustomerService {
 		System.out.println("삭제할 회원의 아이디를 입력해주세요 : ");
 		String id = sc.next();
 
-		if (hashmap.containsKey(id)) {
-			CustomerMain customermain = hashmap.get(id);
+		if (customerHash.containsKey(id)) {
+			CustomerMain customermain = customerHash.get(id);
 			int index = list.indexOf(customermain);
 
-			hashmap.remove(id);
+			customerHash.remove(id);
 			list.remove(index);
 		} else {
 			System.out.println("입력하신 회원님은 없습니다.");
@@ -139,8 +151,8 @@ public class CustomerService {
 	public void personalView() {
 		System.out.println("고객의 ID를 입력하세요.");
 		String id = sc.next();
-		if (hashmap.containsKey(id)) {
-			CustomerMain customermain = hashmap.get(id);
+		if (customerHash.containsKey(id)) {
+			CustomerMain customermain = customerHash.get(id);
 			customermain.customerList();
 		} else {
 			System.out.println("입력하신 회원님은 없습니다.");
@@ -171,10 +183,10 @@ public class CustomerService {
 			} else {
 				System.out.println("File already exists.");
 			}
-			writer = new BufferedWriter(new FileWriter(path, true));
+			writer = new BufferedWriter(new FileWriter(path, false));
 			for (CustomerMain customer : list) {
 				String str;
-				str = customer.getId() + "," + customer.getName() + "," + customer.getAge() + "," + customer.getGender()
+				str = customer.getId() + "," + customer.getPw() + "," + customer.getName() + "," + customer.getAge() + "," + customer.getGender()
 						+ "," + customer.getPhoneNumber() + "," + customer.getAddress();
 				writer.append(str);
 				writer.append("\n");
@@ -196,15 +208,16 @@ public class CustomerService {
 			while ((line = reader.readLine()) != null) {
 				String[] data = line.split(",");
 				String id = data[0];
-				String name = data[1];
-				int age = Integer.parseInt(data[2]);
-				String gender = data[3];
-				String address = data[4];
-				String phonenumber = data[5];
+				String pw = data[1];
+				String name = data[2];
+				int age = Integer.parseInt(data[3]);
+				String gender = data[4];
+				String address = data[5];
+				String phonenumber = data[6];
 
-				CustomerMain customermain = new CustomerMain(id, name, age, gender, address, phonenumber);
+				CustomerMain customermain = new CustomerMain(id, pw, name, age, gender, address, phonenumber);
 				list.add(customermain);
-				hashmap.put(id, customermain);
+				customerHash.put(id, customermain);
 			}
 
 		} catch (IOException e) {
