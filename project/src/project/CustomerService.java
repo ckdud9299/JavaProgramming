@@ -199,7 +199,7 @@ public class CustomerService {
 	}
 
 	// txt파일 가져오기
-	public void load() {
+	public void Fileread() {
 		String path = "customer.txt";
 		BufferedReader reader = null;
 		try {

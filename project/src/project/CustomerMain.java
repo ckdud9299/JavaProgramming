@@ -117,13 +117,12 @@ public class CustomerMain {
 	}
 
 	// customerMainMenu 시작(Shopping Main클래스에서 처음 호출받는 메소드)
-	public void customerMenu() {
+	public void customerMenu() throws IOException {
 		// customerService 클래스에서 입력 내용구현
 		Main restart = new Main();
 		CustomerService customerService = new CustomerService();
-		HashmapTest hashmaptest = new HashmapTest();
 
-		customerService.load(); // 파일을 불러와 list와 hashmap에 저장하는 메소드 불러오기
+		customerService.Fileread(); // 파일을 불러와 list와 hashmap에 저장하는 메소드 불러오기
 
 		while (true) {
 			System.out.println("-----------------------");

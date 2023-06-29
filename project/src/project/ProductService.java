@@ -141,26 +141,64 @@ public class ProductService {
 
 	// 종료
 	public void exit() {
-		String path = "product.csv";
+		// 1. 파일 객체생성
+		String path = "product.txt";
 		File file = new File(path);
-		BufferedWriter writer = null;
+
+		// 2. 파일 존재여부 체크 및 생성
 		try {
-			if (file.createNewFile()) {
-				System.out.println("File created: " + file.getName());
-			} else {
-				System.out.println("File already exists.");
+			if (!file.exists()) {
+				file.createNewFile();
 			}
-			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path, true), "UTF-8"));
-			for (ProductMain product : list) {
-				String str;
-				str = product.getProductId() + "," + product.getProductName() + "," + product.getCategory() + ","
-						+ product.getPrice() + "," + product.getQuantity();
-				writer.append(str);
+
+			// 3. FileWriter를 사용해서
+			FileWriter fileWriter = new FileWriter(file, false); // false = 덮어쓰기 , write = 기존꺼 밑에 쓰기
+			BufferedWriter writer = new BufferedWriter(fileWriter);
+
+			// 4. 입력된 arraylist값 "," 붙여서 메모장 생성
+			for (ProductMain e : list) {
+				String str = e.getProductId() + "," + e.getProductName() + "," + e.getCategory() + "," + e.getPrice()
+						+ "," + e.getQuantity();
+				writer.append(str + "\n");
 			}
+			// 5. 파일 닫기
 			writer.close();
+			System.out.println("리스트 메모장 저장 성공! ");
+
 		} catch (IOException e) {
-			System.out.println("An error occurred.");
 			e.printStackTrace();
 		}
 	}
+
+	public void Fileread() throws IOException {
+		// 1. 파일객체생성
+		String path = "product.txt";
+		File file = new File(path);
+		// 파일이 있다면 조건문 실행
+		if (file.exists()) {
+			// 2. BufferedReader사용해서 file데이터값 읽기
+			BufferedReader inFile = new BufferedReader(new FileReader(file));
+			String sLine = null;
+			// 3. 리스트를 "," 기준으로 잘라서 저장하기
+			while ((sLine = inFile.readLine()) != null) {
+				String[] arr = sLine.split(",");
+				try {
+					String productId = arr[0].trim();
+					String productName = arr[1].trim();
+					String category = arr[2].trim();
+					int price = Integer.parseInt(arr[3].trim());
+					int quantity = Integer.parseInt(arr[4].trim());
+					ProductMain readproduct = new ProductMain(productId, productName, category, price, quantity);
+					list.add(readproduct);
+					productHash.put(productId, readproduct);
+
+				} catch (NumberFormatException ex) {
+					ex.printStackTrace();
+				}
+			}
+			System.out.println("파일 읽기가 완료되었습니다.");
+		}
+
+	}
+
 }
