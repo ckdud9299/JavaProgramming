@@ -19,6 +19,8 @@ public class Main {
 	      
 	      switch(menu) {
 	         case 1 : 
+	        	 ShoppingMain shoppingmain = new ShoppingMain();
+	        	 shoppingmain.login();
 	        	 break;
 	         case 2 : {
 	        	 CustomerMain coustormerMain = new CustomerMain();
