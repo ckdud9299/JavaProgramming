@@ -131,22 +131,25 @@ public class ShoppingMain {
 		// 사용자 id, pw 입력받고 고객 id 및 비밀번호 확인
 		System.out.println("ID 입력하세요 = ");
 		inputId = sc.next();
-		System.out.println("PW 입력하세요 = ");
-		String pw = sc.next();
+		
 		String findFw = null;
 
 		if (customerService.customerHash.containsKey(inputId)) {
 			findFw = customerService.customerHash.get(inputId).getPw();
 		} else {
-			System.out.println("로그인 실패");
+			System.out.println("로그인 실패"); // 없는 id 입니다
+			Login();
 			return;
 		}
-
+		
+		System.out.println("PW 입력하세요 = ");
+		String pw = sc.next();
+		
 		if (findFw.equals(pw)) {
 			System.out.println("로그인 성공!");
 			ShoppingMenu();
 		} else {
-			System.out.println("로그인 실패");
+			System.out.println("로그인 실패"); // 비밀번호가 틀렸습니다
 			Login();
 			return;
 		}
