@@ -133,7 +133,7 @@ public class ProductMain {
 			case 0:
 				productService.FileSave(); // 6. 종료
 				restart.start(); // 0. 초기화면 돌아가기
-				break;
+				return;
 			default:
 				System.out.println("잘못된 입력입니다.");
 			}

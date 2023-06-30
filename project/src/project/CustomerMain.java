@@ -98,22 +98,8 @@ public class CustomerMain {
 	 */
 
 	public void customerString() {
-		StringBuffer sb = new StringBuffer();
-		sb.append(name + " ");
-		sb.append("회원" + " || ");
-		sb.append("id = ");
-		sb.append(id + " || ");
-		sb.append("pw = ");
-		sb.append(pw + " || ");
-		sb.append("나이 = ");
-		sb.append(age + " || ");
-		sb.append("성별 = ");
-		sb.append(gender + " || ");
-		sb.append("주소 = ");
-		sb.append(address + " || ");
-		sb.append("핸드폰번호 = ");
-		sb.append(phoneNumber);
-		System.out.println(sb);
+		
+		System.out.printf("%-10s%-10s%-10s%-10d%-10s%-20s%-11s%n", name, id, pw, age, gender, address, phoneNumber);
 	}
 
 	// customerMainMenu 시작(Shopping Main클래스에서 처음 호출받는 메소드)
@@ -125,14 +111,14 @@ public class CustomerMain {
 		customerService.Fileread(); // 파일읽기
 
 		while (true) {
-			System.out.println("-----------------------");
+			System.out.println("==========고객관리 메인화면입니다==========");
 			System.out.println("1.입력");
 			System.out.println("2.수정");
 			System.out.println("3.삭제");
 			System.out.println("4.조회");
 			System.out.println("5.전체조회");
 			System.out.println("0.메인 메뉴로 돌아가기");
-			System.out.println("-----------------------");
+			System.out.println("====================================");
 			// 메뉴 번호 입력받고 번호에 따라 CustomerService 메소드 호출
 			int menu = sc.nextInt();
 
@@ -156,7 +142,7 @@ public class CustomerMain {
 			case 0:
 				customerService.FileSave(); // 6. 종료
 				restart.start(); // 0. 초기화면 돌아가기
-				break;
+				return;
 			default:
 				System.out.println("잘못된 입력입니다.");
 			}

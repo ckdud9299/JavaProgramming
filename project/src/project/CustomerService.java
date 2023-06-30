@@ -15,8 +15,9 @@ public class CustomerService {
 
 	// 고객 정보입력
 	public void insert() {
+		System.out.println("==========고객 정보를 입력합니다==========");
 		// id입력받기
-		System.out.println("id을 입력하세요. ");
+		System.out.println("id을 입력하세요 = ");
 		String id = sc.next();
 
 		if (customerHash.containsKey(id)) {
@@ -25,26 +26,26 @@ public class CustomerService {
 			return;
 		}
 		// pw 입력받기
-		System.out.println("비밀번호를 입력하세요. ");
+		System.out.println("비밀번호를 입력하세요 = ");
 		String pw = sc.next();
 		// 이름 입력받기
-		System.out.println("이름을 입력하세요. ");
+		System.out.println("이름을 입력하세요 = ");
 		String name = sc.next();
 		// 나이 입력받기
-		System.out.println("나이를 입력하세요. ");
+		System.out.println("나이를 입력하세요 = ");
 		int age = sc.nextInt();
 		// 성별 입력받기
 		System.out.println("성별를 입력하세요.(남/여)");
 		String gender = sc.next();
 		while (!(gender.equals("남") || gender.equals("여"))) {
-			System.out.println("잘못입력하셨습니다. 다시 입력해주세요.");
+			System.out.println("잘못입력하셨습니다. '남' 또는 '여'로 입력해주세요 = ");
 			gender = sc.next();
 		}
 		// 주소 입력받기
-		System.out.println("주소를 입력하세요. ");
+		System.out.println("주소를 입력하세요 = ");
 		String address = sc.next();
 		// 휴대폰 번호 입력받기
-		System.out.println("번호를 입력하세요. ");
+		System.out.println("번호를 입력하세요 = ");
 		String phonenumber = sc.next();
 
 		// 입력받은 값 저장
@@ -56,7 +57,8 @@ public class CustomerService {
 
 	// 고객정보 수정
 	public void edit() {
-		System.out.println("수정할 고객의 ID를 입력하세요.");
+		System.out.println("==========고객 정보를 수정합니다==========");
+		System.out.println("수정할 고객의 ID를 입력하세요 = ");
 		String id = sc.next();
 
 		if (customerHash.containsKey(id)) {
@@ -65,21 +67,21 @@ public class CustomerService {
 			CustomerMain customermain = customerHash.get(id);
 			// 해쉬맵에서 찾은 값을 리스트indexof에 넣어줘서, 리스트의 값이 위치하는 인덱스 번호를 찾는다.
 			int index = customerList.indexOf(customermain);
-
-			System.out.println("수정하실 항목을 선택하세요.");
-			System.out.println("1.이름 2.나이 3.성별 4.주소 5. 휴대폰번호 6. 비밀번호");
+			
+			System.out.println("1.이름 2.나이 3.성별 4.주소 5.휴대폰번호 6.비밀번호");
+			System.out.println("수정하실 항목을 선택하세요 = ");
 			int n = sc.nextInt();
 
 			switch (n) {
 			case 1:
-				System.out.println("이름을 새로 입력하세요.");
+				System.out.println("이름을 새로 입력하세요 = ");
 				String name = sc.next();
 				customermain.setName(name);
 				customerList.get(index).setName(name);
 
 				break;
 			case 2:
-				System.out.println("나이를 새로 입력하세요.");
+				System.out.println("나이를 새로 입력하세요 = ");
 				int age = sc.nextInt();
 				customermain.setAge(age);
 
@@ -87,7 +89,7 @@ public class CustomerService {
 
 				break;
 			case 3:
-				System.out.println("성별을 새로 입력하세요.");
+				System.out.println("성별을 새로 입력하세요 = ");
 				String gender = sc.next();
 				customermain.setGender(gender);
 
@@ -95,7 +97,7 @@ public class CustomerService {
 
 				break;
 			case 4:
-				System.out.println("주소를 새로 입력하세요.");
+				System.out.println("주소를 새로 입력하세요 = ");
 				String address = sc.next();
 				customermain.setAddress(address);
 
@@ -103,7 +105,7 @@ public class CustomerService {
 
 				break;
 			case 5:
-				System.out.println("휴대폰 번호을 새로 입력하세요.");
+				System.out.println("휴대폰 번호을 새로 입력하세요 = ");
 				String phonenumber = sc.next();
 				customermain.setPhoneNumber(phonenumber);
 
@@ -112,7 +114,7 @@ public class CustomerService {
 				break;
 
 			case 6:
-				System.out.println("비밀번호을 새로 입력하세요.");
+				System.out.println("비밀번호을 새로 입력하세요 = ");
 				String pw = sc.next();
 				customermain.setPhoneNumber(pw);
 				customerList.get(index).setPhoneNumber(pw);
@@ -130,8 +132,8 @@ public class CustomerService {
 
 	// 고객 정보 삭제
 	public void delete() {
-		System.out.println("---회원을 삭제합니다.---");
-		System.out.println("삭제할 회원의 아이디를 입력해주세요 : ");
+		System.out.println("==========고객 정보를 삭제합니다==========");
+		System.out.println("삭제할 회원의 아이디를 입력해주세요 = ");
 		String id = sc.next();
 
 		if (customerHash.containsKey(id)) {
@@ -140,6 +142,7 @@ public class CustomerService {
 
 			customerHash.remove(id);
 			customerList.remove(index);
+			System.out.println("삭제가 완료되었습니다. ");
 		} else {
 			System.out.println("입력하신 회원님은 없습니다.");
 		}
@@ -147,9 +150,11 @@ public class CustomerService {
 
 	// 개인별 정보 출력
 	public void personalView() {
+		System.out.println("==========개인별 고객 정보를 출력합니다==========");
 		System.out.println("고객의 ID를 입력하세요.");
 		String id = sc.next();
 		if (customerHash.containsKey(id)) {
+			System.out.printf("%-10s%-10s%-10s%-10s%-10s%-20s%-11s%n", "고객이름", "ID", "PW", "나이", "성별", "주소", "핸드폰번호");
 			CustomerMain customermain = customerHash.get(id);
 			customermain.customerString();
 		} else {
@@ -160,7 +165,9 @@ public class CustomerService {
 
 	// 전체 고객 정보 출력
 	public void view() {
+		System.out.println("==========전체 고객 정보를 출력합니다==========");
 		if (customerList.size() != 0) {
+			System.out.printf("%-10s%-10s%-10s%-10s%-10s%-20s%-11s%n", "고객이름", "ID", "PW", "나이", "성별", "주소", "핸드폰번호");
 			for (CustomerMain customer : customerList) {
 				customer.customerString();
 			}
@@ -177,15 +184,15 @@ public class CustomerService {
 		BufferedWriter writer = null;
 		try {
 			if (file.createNewFile()) {
-				System.out.println("File created: " + file.getName());
+				//System.out.println("File created: " + file.getName());
 			} else {
-				System.out.println("File already exists.");
+				//System.out.println("File already exists.");
 			}
 			writer = new BufferedWriter(new FileWriter(path, false));
 			for (CustomerMain customer : customerList) {
 				String str;
 				str = customer.getId() + "," + customer.getPw() + "," + customer.getName() + "," + customer.getAge()
-						+ "," + customer.getGender() + "," + customer.getPhoneNumber() + "," + customer.getAddress();
+						+ "," + customer.getGender() + "," + customer.getAddress() + "," + customer.getPhoneNumber();
 				writer.append(str);
 				writer.append("\n");
 			}

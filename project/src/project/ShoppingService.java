@@ -103,101 +103,120 @@ public class ShoppingService {
 		productService.FileSave(); // product.txt 저장
 	}
 
-	// 환불하기
 	public void productRefund(String inputId) throws IOException {
 
+		// *** 고객 정보, 제품정보 파일로 받아와서 ShoppingList에 넣어주기 ***//
+		String userId = inputId;
 		ProductService productService = new ProductService();
 		productService.Fileread();
 
-		String userid = inputId;
-
-		// 환불내역이 있는지 없는지 확인 -> 있으면 true, 없으면 true
-		boolean result = false;
-		for (ShoppingMain shopping : shoppingList) {
-			if (userid.equals(shopping.getUserID())) {
-				result = true;
+		int listCount = 0;
+		// *** 고객이 제품을 가지고 있는지 판단하고 고객의 구매리스트 출력 ***//
+		for (ShoppingMain e : shoppingList) {
+			if (userId.equals(e.getUserID())) {
+				listCount++;
+				if (listCount != 0)
+					e.shoppingString();
 			}
 		}
-		
-		// 환불 내역이 없을때
-		if (!result) {
-			System.out.println("주문 내역이 없습니다.");
+		// *** 고객의 구매리스트가 없을 때 ***//
+		if (listCount == 0) {
+			System.out.println("해당 고객은 제품이 없습니다.");
 			return;
 		}
-		// 환불 내역이 있을때
-		else {
-			// 환불 내역 보여주기
-			for (ShoppingMain shopping : shoppingList) {
-				if (inputId.equals(shopping.getUserID())) {
-					shopping.shoppingString();
-				}
-			}
-
-			System.out.println();
-
-			// 환불할 주문번호를 입력받기
-			System.out.println("환불하실 주문번호를 입력해주세요");
-			int orderNo = sc.nextInt();
-
-			// 환불할 주문번호가 오류일때
-			if (shoppingHash.containsKey(orderNo)) {
-				if (!(userid.equals(shoppingHash.get(orderNo).getUserID()))) {
-					System.out.println("잘못된 입력입니다.");
-					productRefund(inputId);
-				}
-			} else {
-				System.out.println("잘못된 입력입니다.");
-				productRefund(inputId);
-			}
-
-			// 환불할 주문번호가 오류가 아닐때
-			String pid = shoppingHash.get(orderNo).getProductID();
-
-			// 환불할 수량 입력받기
-			System.out.println("환불하실 수량을 입력해주세요");
+		System.out.println("------------------------------");
+		System.out.println("환불할 제품의 주문번호를 입력하세요 = ");
+		int num = sc.nextInt(); 
+		// *** 환불할 항목의 값이 구매자의 범위내에 없을 때 or 해쉬맵에 저자되어 있지 않을때 ***//
+		if (!shoppingHash.containsKey(num) || !userId.equals(shoppingHash.get(num).getUserID())) {
+			System.out.println("입력값이 초과되었습니다.");
+			System.out.println("재입력 해주세요.");
+			System.out.println("------------------------------");
+			productRefund(userId);
+			return;
+		} else {
+			// *** 환불할 값이 선택되면 환불 갯수를 입력받는다. ***//
+			System.out.println("------------------------------");
+			System.out.println("환불 갯수를 입력해주세요.");
 			int refundCount = sc.nextInt();
+			// *** 입력된 수량이 내가 가진 수량을 초과하면 안됨 ***//
+			if (refundCount > shoppingHash.get(num).getQuantity()) {
+				System.out.println("입력값이 수량을 초과했습니다.");
+				System.out.println("재입력 해주세요.");
+				System.out.println("------------------------------");
+				productRefund(userId);
+				return;
+			} else {
+				// *** 정상적으로 수량을 입력했으면 수량 빼주기 *** //
+				int editQuantity = shoppingHash.get(num).getQuantity() - refundCount;
+				ShoppingMain shoppingMain = shoppingHash.get(num);
+				shoppingMain.setQuantity(editQuantity);
 
-			ShoppingMain shoppingmain = shoppingHash.get(orderNo);
-			int sIndex = shoppingList.indexOf(shoppingmain);
+				// *** 수량이 빠진만큼 가격빼주기 *** //
+				int editPrice = shoppingHash.get(num).getTotapPrice()
+						- (refundCount * shoppingHash.get(num).getPrice());
+				shoppingMain.setQuantity(editQuantity);
+				shoppingMain.setTotapPrice(editPrice);
 
-			// 환불 원하는 수량>주문된 수량일때 -> 처음으로 돌아가기
-			if (refundCount > shoppingHash.get(orderNo).getQuantity()) {
-				System.out.println("주문된 수량보다 많습니다.");
-				productRefund(userid);
-			}
-
-			// 환불 원하는 수량<주문된 수량일때 -> shopping.txt 주문수량&총액 - , product.txt 재고 +
-			// 환불 원하는 수량=주문된 수량일때 shopping.txt에서 해당 전체 정보 삭제, product.txt 재고 +
-			else {
-				if (refundCount == shoppingHash.get(orderNo).getQuantity()) {
-					// 해당 전체 정보 삭제
-					shoppingHash.remove(orderNo);
-					shoppingList.remove(sIndex);
-				} else {
-					// shopping의 arraylist와 hashmap 주문수량 변경
-					int editOrderQuantity = shoppingHash.get(orderNo).getQuantity() - refundCount;
-
-					shoppingHash.get(orderNo).setQuantity(editOrderQuantity);
-					shoppingList.get(sIndex).setQuantity(editOrderQuantity);
-
-					// shopping의 arraylist와 hashmap 총액 변경
-					int editTotal = editOrderQuantity * shoppingHash.get(orderNo).getPrice();
-
-					shoppingHash.get(orderNo).setTotapPrice(editTotal);
-					shoppingList.get(sIndex).setTotapPrice(editTotal);
+				// *** 수량이 '0'이면 해당 객체 삭제 *** //
+				if (editPrice == 0) {
+					shoppingMain = shoppingHash.get(num);
+					int index = shoppingList.indexOf(shoppingMain);
+					shoppingHash.remove(num);
+					shoppingList.remove(index);
 				}
 
-				// product의 arraylist와 hashmap 재고 변경
-				int editProductQuanity = productService.productHash.get(pid).getQuantity() + refundCount;
+				// *** 남은 고객 리스트 출력 *** //
+				int count2 = 0;
+				for (ShoppingMain e : shoppingList) {
+					if (userId.equals(e.getUserID())) {
+						count2++;
+						if (count2 != 0)
+							e.shoppingString();
+					}
+				}
+				// *** 환불 후 제품이 안남았을 때 *** //
+				if (count2 == 0) {
+					System.out.println("------------------------------");
+					System.out.println("환불 후 고객님의 남은 제품이 없습니다.");
+					return;
+				}
+				// *** Product Class의 HashMap, ArrayList 값 수정 *** //
+				ProductMain productmain = productService.productHash.get(userId);
+				int index = productService.productList.indexOf(productmain);
 
-				ProductMain productmain = productService.productHash.get(pid);
-				int pIndex = productService.productList.indexOf(productmain);
-
-				productService.productHash.get(pid).setQuantity(editProductQuanity);
-				productService.productList.get(pIndex).setQuantity(editProductQuanity);
+				productService.productHash.get(userId).setQuantity(editQuantity); // 해쉬맵 값 바꾸기
+				productService.productList.get(index).setQuantity(editQuantity); // 리스트 값 바꾸기
 				productService.FileSave();
+				System.out.println("------------------------------");
+				System.out.println("환불이 완료되었습니다.");
+			}
+
+		}
+
+	}
+	
+	public void customerBuyList(String inputId) throws IOException {
+
+		String userId = inputId;
+		int listCount = 0;
+		ProductService productService = new ProductService();
+		productService.Fileread();
+
+		// *** 고객이 제품을 가지고 있는지 판단하고 고객의 구매리스트 출력 ***//
+		for (ShoppingMain e : shoppingList) {
+			if (userId.equals(e.getUserID())) {
+				listCount++;
+				if (listCount != 0)
+					e.shoppingString();
 			}
 		}
+		// *** 고객의 구매리스트가 없을 때 *** //
+		if (listCount == 0) {
+			System.out.println("해당 고객은 제품이 없습니다.");
+			return;
+		}
+
 	}
 
 	public void view() {
