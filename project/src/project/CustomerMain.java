@@ -17,9 +17,7 @@ public class CustomerMain {
 	private String address;
 	private String phoneNumber;
 
-	/*
-	 * ///////////////생성자/////////////
-	 */
+	//* 생성자 *//
 	CustomerMain() {
 	}
 
@@ -33,11 +31,8 @@ public class CustomerMain {
 		this.address = address;
 		this.phoneNumber = phoneNumber;
 	}
-////////////////////생성자 완료/////////////////////////////
 
-	/*
-	 * //////////////getter & setter 시작//////////////
-	 */
+	//*getter & setter  *//
 	public String getId() {
 		return id;
 	}
@@ -93,10 +88,6 @@ public class CustomerMain {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
-
-	/*
-	 * //////////////getter & setter 완료//////////////
-	 */
 
 	public void customerString() {
 		
@@ -163,7 +154,7 @@ public class CustomerMain {
 				restart.start(); // 0. 초기화면 돌아가기
 				return;
 			default:
-				System.out.println("잘못된 입력입니다.");
+				return;
 			}
 		}
 	}

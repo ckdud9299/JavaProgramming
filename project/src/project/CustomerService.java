@@ -145,10 +145,8 @@ public class CustomerService {
 		/* step 3 = 수정할 정보 입력받기 */
 		if (isStepNo == 3) {
 
-			// 고객 메인 = 해쉬맵에서 입력받은 id의 값을 넣어준다 hashmap.get(id) = 주소값 반환
+			// customermain 변수에 hashmap.get(id)의 주소값을 참조하여 저장 -> hashmap과 arraylist가 동일한 개체를 가리키고 참조하기 때문에 한번에 변경가능
 			CustomerMain customermain = customerHash.get(customerId);
-			// 해쉬맵에서 찾은 값을 리스트indexof에 넣어줘서, 리스트의 값이 위치하는 인덱스 번호를 찾는다.
-			int index = customerList.indexOf(customermain);
 
 			switch (n) {
 			case 1:
@@ -156,7 +154,6 @@ public class CustomerService {
 				String name = sc.next();
 
 				customermain.setName(name);
-				customerList.get(index).setName(name);
 
 				break;
 			case 2:
@@ -166,8 +163,7 @@ public class CustomerService {
 						int age = sc.nextInt();
 
 						customermain.setAge(age);
-						customerList.get(index).setAge(age);
-
+						
 						break;
 					} catch (InputMismatchException e) {
 						System.out.println("[ERROR] 숫자를 입력해주세요.");
@@ -186,15 +182,12 @@ public class CustomerService {
 				}
 
 				customermain.setGender(gender);
-				customerList.get(index).setGender(gender);
-
 				break;
 			case 4:
 				System.out.println("주소를 새로 입력하세요 = ");
 				String address = sc.next();
 
 				customermain.setAddress(address);
-				customerList.get(index).setAddress(address);
 
 				break;
 			case 5:
@@ -202,7 +195,6 @@ public class CustomerService {
 				String phonenumber = sc.next();
 
 				customermain.setPhoneNumber(phonenumber);
-				customerList.get(index).setPhoneNumber(phonenumber);
 
 				break;
 
@@ -211,7 +203,6 @@ public class CustomerService {
 				String pw = sc.next();
 
 				customermain.setPhoneNumber(pw);
-				customerList.get(index).setPhoneNumber(pw);
 
 				break;
 
