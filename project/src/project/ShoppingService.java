@@ -35,12 +35,13 @@ public class ShoppingService {
 		/* step 1 = 제품 목록 출력하기 */
 		if (isStepNo == 1) {
 			System.out.println("==========제품 목록==========");
-			System.out.printf("%-10s%-10s%-10s%-10s%-10s\n", "제품이름", "제품ID", "카테고리", "가격", "수량");
+			System.out.printf("%-10s%-10s%-10s%-10s%-10s\n", "제품ID", "제품이름", "카테고리", "가격", "수량");
 
 			if (!productService.productList.isEmpty()) {
 				for (ProductMain productMain : productService.productList) {
-					System.out.println(productMain.getProductId() + " " + productMain.getProductName() + " "
-							+ productMain.getPrice() + " " + productMain.getQuantity());
+					System.out.printf("%-10s%-10s%-10s%-10d%-10d\n", productMain.getProductId(),
+							productMain.getProductName(), productMain.getCategory(), productMain.getPrice(),
+							productMain.getQuantity());
 				}
 				// 리스트가 비어있으면 view 메소드 종료
 			} else if (productService.productList.isEmpty()) {
@@ -54,7 +55,11 @@ public class ShoppingService {
 
 		/* step 2= 주문번호 생성하기 */
 		if (isStepNo == 2) {
-			orderNo = shoppingList.get(shoppingList.size() - 1).getProductOrderNo() + 1;
+			if (shoppingList.size() == 0) {
+				orderNo = 1;
+			} else {
+				orderNo = shoppingList.get(shoppingList.size() - 1).getProductOrderNo() + 1;
+			}
 			isStepNo++;
 		}
 
@@ -73,6 +78,7 @@ public class ShoppingService {
 			if (!(productService.productHash.containsKey(pid))) {
 				System.out.println("[ERROR] 존재하지 않는 제품 ID 입니다.");
 				productBuy(inputId, 1);
+				return;
 			}
 
 			// 입력받은 제품 ID의 재고가 0일때
@@ -143,10 +149,8 @@ public class ShoppingService {
 			int resultProductQuanity = productQuantity - inputQuantity; // 변경될 재고 계산
 
 			ProductMain productmain = productService.productHash.get(pid);
-			int index = productService.productList.indexOf(productmain);
 
-			productService.productHash.get(pid).setQuantity(resultProductQuanity); // productHash 재고 변경
-			productService.productList.get(index).setQuantity(resultProductQuanity); // productList 재고 변경
+			productService.productHash.get(pid).setQuantity(resultProductQuanity); // product 재고 변경
 			productService.FileSave(); // product.txt 저장
 		}
 
@@ -169,10 +173,11 @@ public class ShoppingService {
 
 		// *** step1 고객이 제품을 가지고 있는지 확인 후 고객 구매리스트 출력 *** //
 		if (rfStepNo == 1) {
+			shoppingAttribute();
 			for (ShoppingMain e : shoppingList) {
 				if (userId.equals(e.getUserID())) {
 					result = false;
-					if (result)
+					if (!result)
 						e.shoppingString();
 				}
 			}
@@ -242,8 +247,6 @@ public class ShoppingService {
 			// *** 입력된 수량 빼주기 *** //
 			editQuantity = shoppingHash.get(num).getQuantity() - refundCount;
 			ShoppingMain shoppingMain = shoppingHash.get(num);
-			System.out.println(shoppingMain);
-			System.out.println();
 			shoppingMain.setQuantity(editQuantity); // 해쉬맵 수량 변경
 
 			// int sIndex = shoppingList.indexOf(shoppingMain);
@@ -266,10 +269,11 @@ public class ShoppingService {
 
 		// *** step7 고객의 남은 물품 리스트 출력 *** //
 		if (rfStepNo == 7) {
+			shoppingAttribute();
 			for (ShoppingMain e : shoppingList) {
 				if (userId.equals(e.getUserID())) {
 					result2 = false;
-					if (result2)
+					if (!result2)
 						e.shoppingString();
 				}
 			}
@@ -308,20 +312,22 @@ public class ShoppingService {
 	public void customerBuyList(String inputId) throws IOException {
 
 		String userId = inputId;
-		int listCount = 0;
+		boolean result = true;
 		ProductService productService = new ProductService();
 		productService.Fileread();
 
 		// *** 고객이 제품을 가지고 있는지 판단하고 고객의 구매리스트 출력 ***//
+		shoppingAttribute();
+		
 		for (ShoppingMain e : shoppingList) {
 			if (userId.equals(e.getUserID())) {
-				listCount++;
-				if (listCount != 0)
+				result = false;
+				if (!result)
 					e.shoppingString();
 			}
 		}
 		// *** 고객의 구매리스트가 없을 때 *** //
-		if (listCount == 0) {
+		if (result) {
 			System.out.println("해당 고객은 제품이 없습니다.");
 			return;
 		}
@@ -330,6 +336,7 @@ public class ShoppingService {
 
 	public void view() {
 		if (shoppingList.size() != 0) {
+			shoppingAttribute();
 			for (ShoppingMain shopping : shoppingList) {
 				shopping.shoppingString();
 			}
@@ -346,9 +353,9 @@ public class ShoppingService {
 		BufferedWriter writer = null;
 		try {
 			if (file.createNewFile()) {
-				System.out.println("File created: " + file.getName());
+				//System.out.println("File created: " + file.getName());
 			} else {
-				System.out.println("File already exists.");
+				//System.out.println("File already exists.");
 			}
 			writer = new BufferedWriter(new FileWriter(path, false));
 			for (ShoppingMain shopping : shoppingList) {
@@ -392,6 +399,10 @@ public class ShoppingService {
 			System.out.println("An error occurred.");
 			e.printStackTrace();
 		}
+	}
+	
+	public void shoppingAttribute() {
+		System.out.printf("%-10s%-10s%-10s%-20s%-10s%-10s%-10s\n", "제품 주문번호", "고객id", "제품id", "날짜", "수량", "가격", "총 가격");
 	}
 
 }

@@ -91,9 +91,10 @@ public class ShoppingMain {
 	}
 
 	public void shoppingString() {
-		System.out.printf("%-10d%-10s%-10s%-10s%-10d%-10d%-10d\n", productOrderNo, userID, productID, date, quantity,
+		System.out.printf("%-10s%-10s%-10s%-20s%-10d%-10d%-10d\n", productOrderNo, userID, productID, date, quantity,
 				price, totapPrice);
 	}
+
 
 	public void Login() throws IOException {
 		Scanner sc = new Scanner(System.in);
@@ -149,7 +150,7 @@ public class ShoppingMain {
 			System.out.println("0. 메인 메뉴로 돌아가기");
 			System.out.println("-----------------------");
 			// 메뉴 번호 입력받고 번호에 따라 CustomerService 메소드 호출
-			int menu = sc.nextInt();
+			int menu = 0;
 			
 			while (true) {
 				try {
@@ -181,7 +182,7 @@ public class ShoppingMain {
 				shoppingService.view(); // 4. 주문목록 전체조회
 				break;
 			case 0:
-//				shoppingService.FileSave(); // 6. 종료
+				shoppingService.FileSave(); // 6. 종료
 				restart.start(); // 0. 초기화면 돌아가기
 				return;
 			}
