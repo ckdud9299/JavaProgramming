@@ -79,14 +79,15 @@ public class CustomerService {
 		/* step 6 = 주소 입력받기 */
 		if (isStepNo == 6) {
 			System.out.println("주소를 입력하세요 = ");
-			address = sc.next();
+			sc.nextLine();
+			address = sc.nextLine();
 			isStepNo++;
 		}
 
 		/* step 7 = 핸드폰 번호 입력받기 */
 		if (isStepNo == 7) {
 			System.out.println("번호를 입력하세요 = ");
-			phonenumber = sc.next();
+			phonenumber = sc.nextLine();
 			isStepNo++;
 		}
 

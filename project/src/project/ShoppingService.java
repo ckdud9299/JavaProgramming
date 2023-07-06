@@ -145,13 +145,15 @@ public class ShoppingService {
 		/* step 10 = product의 arraylist와 hashmap 수량 변경 */
 		if (isStepNo == 10) {
 			int productQuantity = productService.productHash.get(pid).getQuantity(); // productHash에 저장된 pid에 해당하는 재고
-																						// 가져오기
+																						
 			int resultProductQuanity = productQuantity - inputQuantity; // 변경될 재고 계산
 
 			ProductMain productmain = productService.productHash.get(pid);
 
 			productService.productHash.get(pid).setQuantity(resultProductQuanity); // product 재고 변경
 			productService.FileSave(); // product.txt 저장
+			
+			System.out.println("==========구매를 완료했습니다==========");
 		}
 
 	}
